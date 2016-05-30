@@ -1,0 +1,6 @@
+{
+  "esversion" : 6,
+  "eqeqeq" : true,
+  "quotmark" : "single",
+  "maxlen" : 100
+}
