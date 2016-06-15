@@ -10,17 +10,34 @@ Meteor.methods({
   'TweetDB.insert'() {
 
     var keyword = KeywordDB.findOne();
-    console.log(keyword.text);
     var T = new Twit(Meteor.settings.private.twitter);
-    T.get('search/tweets', { q: 'android', count: 100 },
-    function (err, data, response) {
-      if (err) {
-        console.log(chalk.white.bgRed('  ERROR  ') +
-          chalk.red(' Twitter keys not working. Please check settings.json'));
-        console.log(err);
-      } else
-        console.log(chalk.white.bgGreen(' SUCCESS ') + chalk.green(' Twitter keys are working.'));
-    });
+
+    // console.log(keyword.text);
+    if (keyword === '') {
+
+      // If no search term specified, then get random tweets
+      T.get('search/tweets', { q: 'android', count: 100 },
+      function (err, data, response) {
+        if (err) {
+          console.log(chalk.white.bgRed('  ERROR  ') +
+            chalk.red(' Unable to get tweets.'));
+          console.log(err);
+        } else
+          console.log(chalk.white.bgGreen(' SUCCESS ') + chalk.green(' Fetched random tweets.'));
+      });
+    } else {
+
+      // Get tweets as per search term
+      T.get('search/tweets', { q: 'android', count: 100 },
+      function (err, data, response) {
+        if (err) {
+          console.log(chalk.white.bgRed('  ERROR  ') +
+            chalk.red(' Unable to get tweets.'));
+          console.log(err);
+        } else
+          console.log(chalk.white.bgGreen(' SUCCESS ') + chalk.green(' Fetched tweets.'));
+      });
+    }
 
     TweetDB.insert({
       text,
